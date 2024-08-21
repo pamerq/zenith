@@ -15,6 +15,10 @@ A web application to manage your daily tasks, allowing user registration, login,
 - **Backend:** Node.js, Express, MongoDB
 - **Authentication:** JSON Web Tokens (JWT)
 
+## Aditionals
+
+- This project uses GitHub Actions to automate workflows
+
 ## Installation
 
 ### Backend
