@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 5001;
 
 //MongoDB
-mongoose.connect('mongodb://localhost:27017/task-manager', {
+mongoose.connect('mongodb://localhost:27017/zenith', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
@@ -22,7 +22,11 @@ const userRoutes = require('./routes/userRoutes');
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 
+const testRoutes = require('./routes/testRoutes');
+app.use('/api/test', testRoutes);
+
 // Init server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+

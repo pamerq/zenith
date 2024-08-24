@@ -2,7 +2,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-// Registrar un nuevo usuario
+// Register
 exports.register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
   }
 };
 
-// Iniciar sesión
+// Login
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -29,9 +29,11 @@ exports.login = async (req, res) => {
       return res.status(400).send('Invalid credentials');
     }
 
-    const token = jwt.sign({ _id: user._id }, 'your_jwt_secret');
+    const token = jwt.sign({ _id: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
     res.send({ token });
   } catch (error) {
     res.status(500).send(error);
   }
 };
+
+//Update o Delete User
