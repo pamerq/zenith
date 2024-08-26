@@ -1,7 +1,18 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 5001;
+
+
+app.use(cors({
+  origin: 'http://localhost:3000', // Especifica el origen permitido
+  methods: 'GET,POST,PUT,DELETE',
+  credentials: true // Si necesitas enviar cookies o autenticación
+}));
+
+// Middleware JSON
+app.use(express.json());
 
 //MongoDB
 mongoose.connect('mongodb://localhost:27017/zenith', {
@@ -12,9 +23,6 @@ mongoose.connect('mongodb://localhost:27017/zenith', {
 }).catch((error) => {
   console.error('Error connecting to MongoDB', error);
 });
-
-// Middleware JSON
-app.use(express.json());
 
 // Use routes
 const taskRoutes = require('./routes/taskRoutes');
@@ -29,4 +37,3 @@ app.use('/api/test', testRoutes);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-

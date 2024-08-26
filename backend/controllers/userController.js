@@ -26,13 +26,13 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).send('Invalid credentials');
+      return res.status(400).send('Invalid credentials'); // Error en credenciales
     }
 
     const token = jwt.sign({ _id: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
     res.send({ token });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send('Server error'); // Error del servidor
   }
 };
 
