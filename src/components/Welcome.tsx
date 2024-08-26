@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-const Welcome = () => {
+const Welcome: React.FC = () => {
   return (
     <div>
       <h1>Welcome!</h1>
