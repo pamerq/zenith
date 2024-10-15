@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Tasks from './components/Tasks';
 import Login from './components/Login';
 import Welcome from './components/Welcome';
-import './App.css'; //
+import './styles/style.scss';
 
 const App = () => {
   return (
     <Router>
-      <div>
+      <div className="container">
         <nav>
           <Link to="/">Home</Link><br></br>
           <Link to="/tasks">Tasks</Link><br></br>
