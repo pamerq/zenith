@@ -1,0 +1,39 @@
+/* General style for the navigation container */
+.container {
+  width: 100%;
+}
+
+/* Style for the navigation bar */
+.navbar {
+  display: flex;
+  justify-content: space-between; /* Space between logo and menu */
+  align-items: center; /* Vertical alignment of elements */
+  background-color: #333;          // Color de fondo del menú
+  padding: 20px 20px;     
+}
+
+/* Style for the logo */
+.logo {
+  color: white;                    // Color del texto del logo
+  font-size: 1.5rem;               // Tamaño de fuente del logo
+  margin-right: auto;              // Empuja el menú a la derecha
+}
+
+/* Style for the menu container */
+.menu {        
+  display: flex;
+  margin-left: 20px;  
+  margin-right: 20px;  
+}
+
+/* Style for links */
+.menuItem {
+  color: white;                    // Color del texto de los enlaces
+  text-decoration: none;           // Quitar subrayado
+  margin-left: 30px;               // Espacio entre enlaces
+  align-self: center;              // Alinear el elemento del menú verticalmente
+}
+
+.menuItem:hover {
+  text-decoration: underline;      // Subrayar al pasar el mouse
+}

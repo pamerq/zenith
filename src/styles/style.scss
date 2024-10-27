@@ -1,6 +1,7 @@
 // variables.scss
 /*$primary-color: #3498db;
 
+
 body {
   background-color: $primary-color;
   font-family: Arial, sans-serif;
@@ -13,3 +14,9 @@ body {
     }
   }
 }*/
+
+/* General style for the navigation container */
+.container {
+  background-color: #282c34; /* Dark background */
+  padding: 1rem; /* Padding around the menu */
+}
