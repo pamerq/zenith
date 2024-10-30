@@ -15,8 +15,8 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<PrivateRoute element={<Profile />} />} /> {/* Protect Profile */}
-        <Route path="/welcome" element={<Welcome />} />
-        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/welcome" element={<PrivateRoute element={<Welcome />} />} /> {/* Protect Profile */}
+        <Route path="/tasks" element={<PrivateRoute element={<Tasks />} />} /> {/* Protect Profile */}
         {/* Redirige a la página de login si intentan acceder a la raíz */}
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>

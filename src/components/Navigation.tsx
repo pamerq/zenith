@@ -1,10 +1,17 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../styles/Navigation.module.scss';
 
 const Navigation: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const hideMenuRoutes = ['/login'];
+
+   // Función para cerrar sesión
+  const handleSignOut = () => {
+    localStorage.removeItem('token'); // Delete token
+    navigate('/login'); // Go login
+  };
 
   return (
     <div className={styles.container}>
@@ -15,7 +22,7 @@ const Navigation: React.FC = () => {
         		<Link to="/welcome" className={styles.menuItem}>Home</Link><br />
             <Link to="/profile" className={styles.menuItem}>Profile</Link><br />
           	<Link to="/tasks" className={styles.menuItem}>Tasks</Link><br />
-          	<Link to="/login" className={styles.menuItem}>Sign Out</Link>
+            <a href="/login" onClick={handleSignOut} className={styles.menuItem}>Sign Out</a>
         	</div>
         </nav>
       )}
