@@ -12,9 +12,10 @@ const Navigation: React.FC = () => {
         <nav className={styles.navbar}>
         	<div className={styles.logo}>Zenith</div>
         	<div className={styles.menu}>
-        		<Link to="/" className={styles.menuItem}>Home</Link><br />
-          		<Link to="/tasks" className={styles.menuItem}>Tasks</Link><br />
-          		<Link to="/login" className={styles.menuItem}>Login</Link>
+        		<Link to="/welcome" className={styles.menuItem}>Home</Link><br />
+            <Link to="/profile" className={styles.menuItem}>Profile</Link><br />
+          	<Link to="/tasks" className={styles.menuItem}>Tasks</Link><br />
+          	<Link to="/login" className={styles.menuItem}>Sign Out</Link>
         	</div>
         </nav>
       )}

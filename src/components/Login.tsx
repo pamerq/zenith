@@ -18,7 +18,7 @@ const Login: React.FC = () => {
       //console.log(response.data);
       if (response.data.token) {
         localStorage.setItem('token', response.data.token); // Save token
-        navigate('/welcome'); // Redirige a la página de bienvenida
+        navigate('/profile'); // Redirige a la página de bienvenida
       } else {
         setError('Login failed');
       }
