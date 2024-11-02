@@ -37,3 +37,19 @@ exports.login = async (req, res) => {
 };
 
 //Update o Delete User
+
+exports.getUser = async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'your_jwt_secret');
+    const user = await User.findById(decodedToken._id).select('-password'); // Excluir la contraseña
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving profile' });
+  }
+};

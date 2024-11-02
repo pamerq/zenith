@@ -8,4 +8,6 @@ router.post('/register', UserController.register);
 // Iniciar sesión
 router.post('/login', UserController.login);
 
+router.get('/profile', UserController.getUser);
+
 module.exports = router;
