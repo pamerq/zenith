@@ -5,14 +5,22 @@ const Profile: React.FC = () => {
   //const [userData, setUserData] = useState(null);
   const [userData, setUserData] = useState<{ username: string; email: string } | null>(null);
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/profile') // Asegúrate de que la URL sea correcta
-      .then(response => {
-        setUserData(response.data);
-      })
-      .catch(error => {
-        console.error('Error al obtener el perfil:', error);
-      });
+   useEffect(() => {
+    const token = localStorage.getItem('token'); // Obtener el token desde el almacenamiento local
+    if (token) {
+      axios
+        .get('http://localhost:5001/api/users/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`, // Enviar el token en los encabezados
+          },
+        })
+        .then((response) => {
+          setUserData(response.data); // Establecer los datos del perfil
+        })
+        .catch((error) => {
+          console.error('Error al obtener el perfil:', error);
+        });
+    }
   }, []);
 
   return (

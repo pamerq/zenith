@@ -23,6 +23,33 @@ A web application to manage your daily tasks, allowing user registration, login,
 
 ### Backend
 
+Controllers: Contain the business logic.
+Models: Define the data structure (MongoDB schema).
+Middlewares: Intercept requests for validations, authentications, etc.
+Routes: Define the routes and which controller will handle them.
+
+backend/
+│
+├── controllers/
+│   ├── taskController.js
+│   └── userController.js
+│
+├── models/
+│   ├── task.js
+│   └── user.js
+│
+├── middlewares/
+│   └── authMiddleware.js
+│
+├── routes/
+│   ├── taskRoutes.js
+│   ├── testRoutes.js
+│   └── userRoutes.js
+│
+├── index.js 
+└── package.json
+
+
 1. **Clone the backend repository:**  
    git clone https://github.com/pamerq/zenith.git
    cd zenith

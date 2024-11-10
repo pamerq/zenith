@@ -40,7 +40,9 @@ exports.login = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'Token missing or invalid' });
+
     const decodedToken = jwt.verify(token, 'your_jwt_secret');
     const user = await User.findById(decodedToken._id).select('-password'); // Excluir la contraseña
 
@@ -48,7 +50,7 @@ exports.getUser = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.json(user);
+    res.json({ username: user.username, email: user.email });
   } catch (error) {
     res.status(500).json({ message: 'Error retrieving profile' });
   }
