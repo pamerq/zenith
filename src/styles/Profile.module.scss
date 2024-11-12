@@ -1,0 +1,70 @@
+.profileContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  background-color: #f3f3f3; /* Fondo general */
+  font-family: Arial, sans-serif;
+  box-sizing: border-box; /* Asegura que los paddings no desborden el contenedor */
+
+}
+
+.profileLeft {
+  flex: 0 0 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 20px; /* Espacio a la derecha para evitar que se pegue */
+}
+
+.profilePic {
+  width: 240px;
+  height: 240px;
+  border-radius: 70%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profileRight {
+  flex: 1;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content:  flex-start;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px 35px 28px 35px ;
+}
+
+.profileHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profileInfo {
+  p {
+    margin: 10px 0;
+    color: #333;
+  }
+}
+
+.editButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
