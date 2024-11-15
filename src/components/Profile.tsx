@@ -5,7 +5,7 @@ import profilePic from '../assets/images/profile-pic.jpg';
 
 const Profile: React.FC = () => {
   //const [userData, setUserData] = useState(null);
-  const [userData, setUserData] = useState<{ username: string; email: string } | null>(null);
+  const [userData, setUserData] = useState<{ name: string; lastname: string; username: string; email: string } | null>(null);
 
    useEffect(() => {
     const token = localStorage.getItem('token'); // Obtener el token desde el almacenamiento local
