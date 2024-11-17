@@ -5,9 +5,10 @@ import profilePic from '../assets/images/profile-pic.jpg';
 
 const Profile: React.FC = () => {
   //const [userData, setUserData] = useState(null);
-  const [userData, setUserData] = useState<{ name: string; lastname: string; username: string; email: string } | null>(null);
+  const [userData, setUserData] = useState<{ name: string; lastname: string; username: string; email: string; phone: string; } | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-   useEffect(() => {
+  useEffect(() => {
     const token = localStorage.getItem('token'); // Obtener el token desde el almacenamiento local
     if (token) {
       axios
@@ -38,10 +39,11 @@ const Profile: React.FC = () => {
 
       {userData ? (
           <div className={styles.profileInfo}>
-            <p><strong>Nombre Completo:</strong> {userData?.username || 'N/A'}</p>
+            <p><strong>Nombre:</strong> {userData.name || 'N/A'}</p>
+            <p><strong>Apellido:</strong> {userData.lastname || 'N/A'}</p>
             <p><strong>Nick:</strong> {userData?.username || 'N/A'}</p>
             <p><strong>Email:</strong> {userData?.email || 'N/A'}</p>
-            <p><strong>Teléfono:</strong> 981723090</p>
+            <p><strong>Teléfono:</strong> {userData?.phone || 'N/A'}</p>
           </div>
       ) : (
         <p>Cargando datos...</p>

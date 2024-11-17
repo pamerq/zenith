@@ -52,6 +52,13 @@ $error-color: #dc3545;
   }
 
   button {
+
+    margin-bottom: 2rem; // Espacio entre los botones dentro del formulario
+  }
+
+}
+
+button {
     padding: 0.75rem;
     background-color: $primary-color;
     color: #ffffff;
@@ -67,4 +74,3 @@ $error-color: #dc3545;
       transform: scale(1.02);
     }
   }
-}

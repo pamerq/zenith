@@ -28,6 +28,10 @@ const Login: React.FC = () => {
     }
   };
 
+  const handleRedirectToRegister = () => {
+    navigate('/register'); // Redirige a la página de registro
+  };
+
   return (
     <div className={styles.loginContainer}>
       <h1 className={styles.loginTitle}>Welcome</h1>
@@ -42,9 +46,10 @@ const Login: React.FC = () => {
         </label>
         <input type="password" placeholder="Password" value={password} 
         	onChange={(e) => setPassword(e.target.value)} required />
-      	<br></br>
-        <button type="submit">Login</button>
+      	
+        <button type="submit" className={styles.button}>Login</button>
       </form>
+      <button className={styles.button} onClick={handleRedirectToRegister} >Register</button>
       {error && <div className={styles.errorMessage}>Error: {error}</div>}
     </div>
   );

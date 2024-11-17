@@ -5,7 +5,7 @@ import styles from '../styles/Navigation.module.scss';
 const Navigation: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const hideMenuRoutes = ['/login'];
+  const hideMenuRoutes = ['/login','/register'];
 
    // Función para cerrar sesión
   const handleSignOut = () => {

@@ -60,6 +60,10 @@ const handleRegister = async (e: FormEvent) => {
     }
 };
 
+const handleRedirectToLogin = () => {
+    navigate('/login'); // Redirige a la página de registro
+  };
+
 return (
 	<div className={styles.registerContainer}>
 	<h1 className={styles.registerTitle}>Create an Account</h1>
@@ -84,7 +88,7 @@ return (
 
         <button type="submit"  disabled={isSubmitting}>Register</button>
 	</form>
-
+	<button className={styles.button} onClick={handleRedirectToLogin} >Login</button>
 	{error && <div className={styles.errorMessage}>Error: {error}</div>}
     {success && <div className={styles.successMessage}>{success}</div>}
 
