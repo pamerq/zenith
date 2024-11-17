@@ -10,6 +10,11 @@
   align-items: center; /* Vertical alignment of elements */
   background-color: #2A3E5C;          // Color de fondo del menú
   padding: 20px 20px;     
+  position: fixed; /* Asegura que el navbar se quede fijo */
+  top: 0;
+  width: 100%;
+  z-index: 10; /* Asegura que el navbar esté por encima de otros elementos */
+
 }
 
 /* Style for the logo */

@@ -1,0 +1,45 @@
+
+.taskMenu {
+  width: 250px;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  background-color: #f4f4f4;
+  padding: 20px;
+  height: calc(100vh - 70px);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  
+  h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin: 15px 0;
+      
+      a {
+        text-decoration: none;
+        color: #333;
+        padding: 10px;
+        display: block;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #ddd;
+        }
+
+        &.active {
+          background-color: #2A3E5C;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
