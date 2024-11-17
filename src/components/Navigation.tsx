@@ -13,15 +13,19 @@ const Navigation: React.FC = () => {
     navigate('/login'); // Go login
   };
 
+  const getActiveClass = (path: string) => {
+    return location.pathname === path ? styles.active : '';
+  };
+
   return (
     <div className={styles.container}>
       {!hideMenuRoutes.includes(location.pathname) && (
         <nav className={styles.navbar}>
         	<div className={styles.logo}>Zenith</div>
         	<div className={styles.menu}>
-        		<Link to="/welcome" className={styles.menuItem}>Home</Link><br />
-            <Link to="/profile" className={styles.menuItem}>Profile</Link><br />
-          	<Link to="/tasks" className={styles.menuItem}>Tasks</Link><br />
+        		<Link to="/welcome" className={`${styles.menuItem} ${getActiveClass('/welcome')}`}>Home</Link><br />
+            <Link to="/profile" className={`${styles.menuItem} ${getActiveClass('/profile')}`}>Profile</Link><br />
+          	<Link to="/tasks" className={`${styles.menuItem} ${getActiveClass('/tasks')}`}>Tasks</Link><br />
             <a href="/login" onClick={handleSignOut} className={styles.menuItem}>Sign Out</a>
         	</div>
         </nav>

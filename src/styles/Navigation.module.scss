@@ -35,5 +35,11 @@
 }
 
 .menuItem:hover {
-  text-decoration: underline;      // Subrayar al pasar el mouse
+  color: #f39c12;     // Subrayar al pasar el mouse
+  ont-weight: bold;
+}
+
+.active {
+  color: #f39c12; /* Color para resaltar el ítem activo */
+  font-weight: bold; /* Hacer el texto más grueso */
 }
