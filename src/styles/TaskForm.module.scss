@@ -1,0 +1,59 @@
+
+.taskForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espacio entre los elementos del formulario */
+  width: 100%;
+  max-width: 500px; /* Máximo ancho del formulario */
+  margin: 0 auto; /* Centra el formulario en el contenedor */
+
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  input, select, textarea {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+  }
+
+  textarea {
+    min-height: 100px; /* Altura mínima para el campo de descripción */
+    resize: vertical; /* Permite redimensionar la altura */
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px; /* Espacio entre los botones */
+    margin-top: 20px; /* Espacio entre el formulario y los botones */
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #2A3E5C;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+
+    & + button {
+      background-color: #ccc;
+      margin-left: 10px;
+
+      &:hover {
+        background-color: #aaa;
+      }
+    }
+  }
+}

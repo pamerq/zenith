@@ -1,10 +1,10 @@
 import React from 'react';
+import styles from '../styles/Welcome.module.scss';
 
 const Welcome: React.FC = () => {
   return (
-    <div>
+    <div className={styles.welcomeContainer}>
       <h1>Welcome!</h1>
-      <p>Congratulations on logging in successfully.</p>
     </div>
   );
 };
