@@ -14,7 +14,7 @@ const Tasks: React.FC = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleCreateTask = async (taskData: { summary: string; priority: string; description: string }) => {
+  const handleCreateTask = async (taskData: { title: string; priority: string; description: string }) => {
   const response = await axios.post('/tasks', taskData);
     try {
       // Aquí puedes hacer la solicitud para crear una tarea en tu backend

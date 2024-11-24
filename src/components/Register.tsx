@@ -13,14 +13,14 @@ const Register: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  	const navigate = useNavigate();
+  const navigate = useNavigate();
 
 const handleRegister = async (e: FormEvent) => {
 	e.preventDefault();
 	setError(null);
-  	setSuccess(null);
+  setSuccess(null);
 
-  	if (!email.includes('@')) {
+  if (!email.includes('@')) {
     	setError('Please enter a valid email address.');
     	return;
 	}
@@ -32,15 +32,15 @@ const handleRegister = async (e: FormEvent) => {
 
 	setIsSubmitting(true);
 
-    try {
-    	const response = await axios.post('/users/register', {
+  try {
+    const response = await axios.post('/users/register', {
       		name,
       		lastname,
       		username,
       		email,
       		phone,
       		password,
-    	});
+    });
 
     	if (response.status === 201) {
       		setSuccess('Registration successful! Redirecting...');
@@ -90,8 +90,7 @@ return (
 	</form>
 	<button className={styles.button} onClick={handleRedirectToLogin} >Login</button>
 	{error && <div className={styles.errorMessage}>Error: {error}</div>}
-    {success && <div className={styles.successMessage}>{success}</div>}
-
+  {success && <div className={styles.successMessage}>{success}</div>}
 	</div>
 	);
 };

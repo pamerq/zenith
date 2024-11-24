@@ -4,7 +4,8 @@ const TaskController = require('../controllers/taskController');
 const authenticateToken = require('../middlewares/authMiddleware');
 
 // Create a new task
-router.post('/', authenticateToken, TaskController.createTask);
+router.post('/create', authenticateToken, TaskController.createTask);
+//router.post('/', authenticateToken, TaskController.createTask);
 
 // Get all tasks
 router.get('/', authenticateToken, TaskController.getTasks);
@@ -19,3 +20,5 @@ router.put('/:id', authenticateToken, TaskController.updateTask);
 router.delete('/:id', authenticateToken, TaskController.deleteTask);
 
 module.exports = router;
+
+
