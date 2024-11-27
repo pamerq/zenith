@@ -25,13 +25,17 @@ exports.createTask = async (req, res) => {
   }
 };
 
-exports.getTasks = (req, res) => {
+exports.getTasks = async (req, res) => {
+
    try {
+    //console.log(req.user);
     const tasks = await Task.find({ user: req.user._id }); 
+    //const tasks = await Task.find();
     res.status(200).json(tasks); 
   } catch (error) {
     res.status(500).json({ message: 'Error fetching tasks', error: error.message });
   }
+
 };
 
 exports.getTask = (req, res) => {

@@ -32,9 +32,11 @@ backend/
 │
 ├── controllers/
 │   ├── taskController.js
+│   ├── taskConfigController.js
 │   └── userController.js
 │
 ├── models/
+│   ├── taskConfig.js
 │   ├── task.js
 │   └── user.js
 │
@@ -43,8 +45,15 @@ backend/
 │
 ├── routes/
 │   ├── taskRoutes.js
+│   ├── taskConfigRoutes.js
 │   ├── testRoutes.js
 │   └── userRoutes.js
+│
+├── scripts/
+│   └── initializeData.js
+│
+├── utils/
+│   └── helpers.js
 │
 ├── index.js 
 └── package.json
