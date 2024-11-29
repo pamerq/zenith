@@ -4,78 +4,95 @@ import Modal from 'react-modal';
 import TaskMenu from './TaskMenu';
 import TaskForm from './TaskForm'; 
 import styles from '../styles/Tasks.module.scss';
-import axios from 'axios';
+import axios from '../axiosConfig';
 
 interface Task {
-  _id:string;
+  _id: string;
   title: string;
-  priority: string;
+  priority: string; 
   description: string;
-  status: string;
+  status: string; 
   createDate: Date;
 }
 
 const Tasks: React.FC = () => {
-
-  //const [tasks, setTasks] = useState<Task[]>([]);
-  const [tasks, setTasks] = useState<{ [key: string]: Task[] }>({ "Pending": [], "In Progress": [], "Completed": [],});
+  const [tasks, setTasks] = useState<{ [key: string]: Task[] }>({});
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false); 
-  const STATUS = ["Pending", "In Progress", "Completed"];
+  const [statuses, setStatuses] = useState<Record<string, string>>({});
+  const [statusesLoaded, setStatusesLoaded] = useState(false);
 
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleCreateTask = async (taskData: { title: string; priority: string; description: string }) => {
-  //const response = await axios.post('/tasks', taskData);
-    try {
-      // Aquí puedes hacer la solicitud para crear una tarea en tu backend
-      //const response = await axios.post('/tasks', taskData);
-      //setTasks([...tasks, response.data]); // Agregar la nueva tarea al estado
-
-      closeModal(); 
-    } catch (err: any) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unknown error occurred');
-      }
-    }
+  const handleCreateTask = (taskData: { title: string; priority: string; description: string }) => {
+    setTimeout(() => {
+          closeModal();
+        }, 1000);
   };
 
   useEffect(() => {
-  const token = localStorage.getItem('token');
-  if (!token) return;
-  axios
-    .get('http://localhost:5001/api/tasks/', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      //console.log('Response data:', response.data);
-      // Si response.data.tasks es el array real
-      //setTasks(Array.isArray(response.data) ? response.data : []);
 
-      const groupedTasks = response.data.reduce((acc: Record<string, Task[]>, task: Task) => {
-        acc[task.status] = acc[task.status] || [];
-        acc[task.status].push(task);
+    const fetchStatuses = async () => {
+      console.log("Status fetch");
+      try {
+        const response = await axios.get('/config/statuses');
+
+        if (!response.data || !Array.isArray(response.data.data)) {
+          throw new Error("Unexpected response format");
+        }
+
+        const statusesMap = response.data.data.reduce((acc: Record<string, string>, status: { _id: string, name: string }) => {
+          acc[status._id] = status.name;  
+          return acc;
+        }, {});
+        console.log('statusesMap',statusesMap);
+        setStatuses(statusesMap);
+        setStatusesLoaded(true);
+      } catch (error: any) {
+        console.error('Error loading statuses:', error);
+        setError(error.message || 'Error loading statuses.');
+      }
+    };
+
+    const fetchTasks = async () => {
+
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        const response = await axios.get('/tasks/', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        console.log('status',statuses);
+        console.log('task',response.data);
+
+        const groupedTasks = response.data.reduce((acc: Record<string, Task[]>, task: Task) => {
+        const statusName = statuses[task.status];
+        if (statusName) {
+          acc[statusName] = acc[statusName] || [];
+          acc[statusName].push(task);
+        }
         return acc;
-      }, {} as Record<string, Task[]>);
+        }, {});
 
-      const initializedColumns = STATUS.reduce((acc: Record<string, Task[]>, column) => {
-        acc[column] = groupedTasks[column] || []; 
-        return acc;
-      }, {} as Record<string, Task[]>);
+        console.log("Grouped Tasks:", groupedTasks);
+        setTasks(groupedTasks);
 
-      setTasks(initializedColumns);
+      } catch (error) {
+        console.error('Error loading tasks:', error);
+      }
 
-    })
-    .catch((error) => {
-      console.error('Error al obtener los datos:', error);
-    });
-  }, []);
+    };
+
+    if (!statusesLoaded) {
+      fetchStatuses();  // Fetch statuses first
+    } else {
+      fetchTasks();  // Fetch tasks after statuses have been loaded
+    }
+
+  }, [statusesLoaded]);
 
 
   if (error) return <div>Error: {error}</div>;
@@ -83,21 +100,21 @@ const Tasks: React.FC = () => {
   return (
     <div className={styles.tasksContainer}>
       <TaskMenu />
-
       <div className={styles.tasksContent}>
         <div className={styles.header}>
           <h1>Tasks</h1>
            <button onClick={openModal} className={styles.createTaskButton}>Create New Task</button>
         </div>
         <div>
-          {STATUS.map((status) => (
-            <div key={status}>
-              <h2>{status}</h2>
-              {tasks[status].length > 0 ? (tasks[status].map((task) => (
+         {Object.entries(statuses).map(([statusId, statusName]) => (
+            <div key={statusId}>
+              <h2>{statusName}</h2>
+              {tasks[statusName] && tasks[statusName].length > 0 ? (tasks[statusName].map((task) => (
                   <div key={task._id}>
                     <strong>{task.title}</strong>
                     <p>{task.description}</p>
                     <span>Priority: {task.priority}</span>
+                    <span>Status: {statuses[task.status]}</span>
                     <small>Created: {new Date(task.createDate).toLocaleDateString()}</small>
                   </div>
               ))) : (

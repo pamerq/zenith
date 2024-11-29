@@ -1,17 +1,43 @@
 const Task = require('../models/task'); 
 const User = require('../models/user');
+const {Status, Priority} = require('../models/taskConfig'); 
 const jwt = require('jsonwebtoken');
 
 exports.createTask = async (req, res) => {
 
   try {
-    const {title, description, priority = 'Low'} = req.body; 
+    const {title, priority, description} = req.body; 
 
-    if (!title || !description) {
-      return res.status(400).json({ message: 'Title and description are required.' });
+    //console.log('Received data:', { title, priority, description });
+
+    if (!title || !description || !priority) {
+      return res.status(400).json({ message: 'Title, description, and priority are required.' });
     }
 
-    const task = new Task({title, description, priority, status: 'Pending', user: req.user._id,});
+    const taskStatus = 'Pending';
+
+    //const foundPriority = await Priority.findOne({ name: priority });
+
+    const foundPriority = await Priority.findById(priority);
+    if (!foundPriority) {
+      return res.status(400).json({ message: 'Invalid priority.' });
+    }
+
+    //console.log('Found priority:', foundPriority);
+
+    const foundStatus = await Status.findOne({ name: taskStatus });
+
+    if (!foundStatus) {
+      return res.status(400).json({ message: 'Invalid status.' });
+    }
+
+    //console.log('Found status:', foundStatus);
+
+    // Asegúrate de que req.user esté definido
+    //console.log('User from token:', req.user);
+
+
+    const task = new Task({title, description,  priority: foundPriority._id, status: foundStatus._id, user: req.user._id});
 
     const savedTask = await task.save();
     //res.status(201).json(savedTask);

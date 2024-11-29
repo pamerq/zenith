@@ -7,18 +7,18 @@ const TaskSchema = new Schema({
     required: true, // The title of the task is required
   },
   priority: {
-    type: String,
-    enum: ['Low', 'Medium', 'High'], // Allowed values for priority
-    default: 'Low', // Default priority is Low
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Priority', // Referencia al modelo Priority
+    required: true, // La prioridad debe ser obligatoria
   },
   description: {
     type: String,
     // Description is optional
   },
   status: {
-    type: String,
-    enum: ['Pending', 'In Progress', 'Completed'], // Allowed values for status
-    default: 'Pending', // Default status is Pending
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Status', // Referencia al modelo Status
+    required: true, // El estado debe ser obligatorio
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

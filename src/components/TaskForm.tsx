@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import axios from '../axiosConfig'; 
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from '../axiosConfig'; 
 import styles from '../styles/TaskForm.module.scss';
 
 interface TaskFormProps {
@@ -15,12 +15,34 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
   const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [priorities, setPriorities] = useState<any[]>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+
+    const fetchPriorities = async () => {
+      try {
+        const response = await axios.get('/config/priorities');
+        setPriorities(response.data); 
+        if (response.data.length > 0) {
+          setPriority(response.data[0]._id); 
+        }
+      } catch (err) {
+        setError('Error loading priorities.');
+        console.error('Error loading priorities:', err);
+      }
+    };
+
+    fetchPriorities();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null); 
     setSuccess(null);
+
+    //console.log('Title:', title);
+    //console.log('Description:', description);
 
     if (title.trim() === '' || description.trim() === '') {
       setError('Title and description are required.');
@@ -46,6 +68,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
     		setSuccess('Task created successfully!');
         onSubmit({ title, priority, description });
         setTimeout(() => {
+          setSuccess(null); 
           navigate('/tasks'); 	
         }, 2000);
       } else {
@@ -72,9 +95,14 @@ return (
     <div>
       <label htmlFor="priority">Priority</label>
       <select id="priority" value={priority} onChange={(e) => setPriority(e.target.value)}>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
+        {priorities.length > 0 ? 
+        (priorities.map((priority) => (
+          <option key={priority._id} value={priority._id}> {priority.name} {/* Aquí usamos el nombre de la prioridad */}
+          </option>
+              ))
+            ) : (
+          <option disabled>Loading priorities...</option>
+        )}
       </select>
     </div>
     <div>
