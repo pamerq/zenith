@@ -5,15 +5,8 @@ import TaskMenu from './TaskMenu';
 import TaskForm from './TaskForm'; 
 import styles from '../styles/Tasks.module.scss';
 import axios from '../axiosConfig';
-
-interface Task {
-  _id: string;
-  title: string;
-  priority: string; 
-  description: string;
-  status: string; 
-  createDate: Date;
-}
+import KanbanView from "./TaskViews/KanbanView";
+import { Task } from "../types/Task";
 
 const Tasks: React.FC = () => {
   const [tasks, setTasks] = useState<{ [key: string]: Task[] }>({});
@@ -21,6 +14,16 @@ const Tasks: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [statuses, setStatuses] = useState<Record<string, string>>({});
   const [statusesLoaded, setStatusesLoaded] = useState(false);
+  const [activeView, setActiveView] = useState("list");
+
+  const renderActiveView = () => {
+    switch (activeView) {
+      case "Kanban":
+        return <KanbanView tasks={tasks} statuses={statuses} />;
+      default:
+        return <KanbanView tasks={tasks} statuses={statuses} />;
+    }
+  };
 
 
   const openModal = () => setIsModalOpen(true);
@@ -29,13 +32,13 @@ const Tasks: React.FC = () => {
   const handleCreateTask = (taskData: { title: string; priority: string; description: string }) => {
     setTimeout(() => {
           closeModal();
-        }, 1000);
+        }, 900);
   };
 
   useEffect(() => {
 
     const fetchStatuses = async () => {
-      console.log("Status fetch");
+
       try {
         const response = await axios.get('/config/statuses');
 
@@ -47,12 +50,15 @@ const Tasks: React.FC = () => {
           acc[status._id] = status.name;  
           return acc;
         }, {});
-        console.log('statusesMap',statusesMap);
+
         setStatuses(statusesMap);
         setStatusesLoaded(true);
+
       } catch (error: any) {
+
         console.error('Error loading statuses:', error);
         setError(error.message || 'Error loading statuses.');
+
       }
     };
 
@@ -65,9 +71,6 @@ const Tasks: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        console.log('status',statuses);
-        console.log('task',response.data);
-
         const groupedTasks = response.data.reduce((acc: Record<string, Task[]>, task: Task) => {
         const statusName = statuses[task.status];
         if (statusName) {
@@ -77,7 +80,6 @@ const Tasks: React.FC = () => {
         return acc;
         }, {});
 
-        console.log("Grouped Tasks:", groupedTasks);
         setTasks(groupedTasks);
 
       } catch (error) {
@@ -101,27 +103,14 @@ const Tasks: React.FC = () => {
     <div className={styles.tasksContainer}>
       <TaskMenu />
       <div className={styles.tasksContent}>
-        <div className={styles.header}>
-          <h1>Tasks</h1>
-           <button onClick={openModal} className={styles.createTaskButton}>Create New Task</button>
+        <div className={`${styles.header} ${styles.buttonGroup}`}>
+          <div className={styles.viewButtons}>
+            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>Kanban View</button>
+          </div>
+          <button onClick={openModal} className={styles.horizontalMenuButton}>New Task +</button>
         </div>
         <div>
-         {Object.entries(statuses).map(([statusId, statusName]) => (
-            <div key={statusId}>
-              <h2>{statusName}</h2>
-              {tasks[statusName] && tasks[statusName].length > 0 ? (tasks[statusName].map((task) => (
-                  <div key={task._id}>
-                    <strong>{task.title}</strong>
-                    <p>{task.description}</p>
-                    <span>Priority: {task.priority}</span>
-                    <span>Status: {statuses[task.status]}</span>
-                    <small>Created: {new Date(task.createDate).toLocaleDateString()}</small>
-                  </div>
-              ))) : (
-              <p> No tasks available</p>
-              )}
-            </div>
-          ))}
+          {renderActiveView()} {/* Renderiza la vista activa */}
         </div>
       </div>
 
@@ -136,6 +125,7 @@ const Tasks: React.FC = () => {
       </Modal>
     </div>
   );
+  
 };
 
 export default Tasks;

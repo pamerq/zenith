@@ -1,9 +1,12 @@
 export interface Task {
-  _id: string; // MongoDB ObjectId
+  _id: string;
   title: string;
-  description: string;
   priority: string;
+  description: string;
   status: string;
-  user?: string; // Opcional si no es necesario en el frontend
-  createDate?: string; // Opcional si lo necesitas
+  createDate: Date;
+}
+
+export interface TaskList {
+  tasks: Task[];
 }

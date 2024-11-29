@@ -1,0 +1,50 @@
+.kanbanBoard {
+  display: flex; /* Para que las columnas se coloquen horizontalmente */
+  gap: 16px; /* Espaciado entre columnas */
+  padding: 16px;
+  overflow-x: auto; /* Hacer scroll horizontal si hay muchas columnas */
+  background-color: #f3f3f3; /* Fondo del tablero */
+  border-radius: 8px;
+  margin-top: 18px;
+}
+
+.column {
+  flex: 1; /* Todas las columnas tienen el mismo ancho */
+  min-width: 300px; /* Ancho mínimo para columnas */
+  background-color: #e3e3e3; /* Fondo gris claro para las columnas */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* Para apilar tareas dentro de la columna */
+}
+
+.columnHeader {
+  background-color: #2a3e5c; /* Color azul para el encabezado */
+  color: white;
+  padding: 12px;
+  border-radius: 8px 8px 0 0; /* Bordes redondeados solo arriba */
+  text-align: center;
+  font-weight: bold;
+}
+
+.tasksContainer {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Espaciado entre tareas */
+}
+
+.taskCard {
+  background-color: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espaciado entre elementos dentro de la tarjeta */
+}
+
+.noTasks {
+  color: #888; /* Texto gris para indicar que no hay tareas */
+  text-align: center;
+}
