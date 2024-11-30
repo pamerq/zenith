@@ -25,7 +25,7 @@ const Navigation: React.FC = () => {
         	<div className={styles.menu}>
         		<Link to="/welcome" className={`${styles.menuItem} ${getActiveClass('/welcome')}`}>Home</Link><br />
             <Link to="/profile" className={`${styles.menuItem} ${getActiveClass('/profile')}`}>Profile</Link><br />
-          	<Link to="/tasks" className={`${styles.menuItem} ${getActiveClass('/tasks')}`}>Tasks</Link><br />
+          	<Link to="/tasks" className={`${styles.menuItem} ${getActiveClass('/tasks')}`}>Tasks</Link><br /> {/*Workspace*/}
             <a href="/login" onClick={handleSignOut} className={styles.menuItem}>Sign Out</a>
         	</div>
         </nav>

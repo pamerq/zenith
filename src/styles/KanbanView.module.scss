@@ -36,12 +36,28 @@
 
 .taskCard {
   background-color: white;
-  padding: 16px;
+  padding: 16px 22px 16px 22px;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   gap: 8px; /* Espaciado entre elementos dentro de la tarjeta */
+  /*margin: 10px;*/
+  position: relative;
+}
+
+.taskHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  gap: 16px; 
+}
+
+.taskCardTitle{
+  text-transform: capitalize;
+  margin: 2px 0 2px 0;
+  flex-grow: 1;
 }
 
 .noTasks {
@@ -51,17 +67,20 @@
 
 .priorityBox {
   display: inline-block;
+  /*display: flex;*/
   padding: 4px 12px; /* Ajustar el tamaño del cuadro */
   border: 2px solid; /* Borde sólido */
   border-radius: 5px; /* Bordes redondeados */
   color: #fff; /* Color del texto */
   font-weight: bold;
   text-transform: capitalize; /* Poner la primera letra en mayúsculas */
-  margin-left: 10px;
+  
   text-align: center; /* Centrar el texto dentro del recuadro */
   font-size: 14px; /* Tamaño de la fuente */
   max-width: 50px; /* Limitar el ancho máximo para no hacerlo tan largo */
   white-space: nowrap; /* Evitar que el texto se desborde */
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .High {
@@ -80,4 +99,42 @@
   border-color: #2ecc71; /* Verde para baja prioridad */
   background-color: rgba(46, 204, 113, 0.1); /* Fondo verde suave */
   color: #2ecc71; /* Color de texto en verde para baja prioridad */
+}
+
+.icon {
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  margin-left: 10px;
+}
+
+.menu {
+  position: absolute;
+  top: 43%;  
+  right: -5%;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: none;
+  flex-direction: column;
+  width: 100px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.menu.show {
+  display: flex; /* Mostrar cuando esté activo */
+  opacity: 1; 
+}
+
+.menuItem {
+  padding: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease; 
+}
+
+.menuItem:hover {
+  background-color: #f0f0f0;
 }

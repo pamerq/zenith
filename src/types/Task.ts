@@ -5,6 +5,7 @@ export interface Task {
   description: string;
   status: string;
   createDate: Date;
+  deadline: Date;
 }
 
 export interface TaskList {

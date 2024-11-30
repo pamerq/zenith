@@ -10,15 +10,22 @@
   label {
     font-weight: bold;
     margin-bottom: 5px;
+    margin-right: 13px;
   }
 
-  input, select, textarea {
+  input, select, textarea, .react-datepicker-wrapper {
     padding: 10px;
     font-size: 1rem;
     border-radius: 4px;
     border: 1px solid #ccc;
     width: 100%;
     box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+    margin-bottom: 15px; 
+  }
+
+  .react-datepicker-wrapper {
+    margin-top: 5px; /* Espacio entre el label y el calendario */
+    width: 100%;
   }
 
   textarea {
@@ -30,7 +37,7 @@
     display: flex;
     justify-content: flex-start;
     gap: 10px; /* Espacio entre los botones */
-    margin-top: 20px; /* Espacio entre el formulario y los botones */
+    margin-top: 0; /* Espacio entre el formulario y los botones */
   }
 
   button {

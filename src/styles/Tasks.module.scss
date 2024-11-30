@@ -7,9 +7,10 @@
 
 .tasksContent {
   flex: 1;
-  margin-left: 270px; /*Esto da espacio para el menú lateral */
-  padding: 30px;
-  padding-left: 60px;
+  /*margin-left: 270px; /*Esto da espacio para el menú lateral */
+  /*padding: 30px;*/
+  padding: 15px;
+  /*padding-left: 60px;*/
 }
 
 .header {
@@ -25,6 +26,13 @@
   display: flex;
   gap: 10px; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.viewButtons {
+  display: flex;
+  gap: 20px; /* Aumenta la separación entre los botones */
+  justify-content: center; /* Centra los botones horizontalmente */
+  margin-top: 10px; /* Opcional: añade separación del contenido superior */
 }
 
 .horizontalMenuButton {

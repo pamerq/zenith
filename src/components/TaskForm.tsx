@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import ReactDatePicker from "react-datepicker";
 import { useNavigate } from 'react-router-dom';
 import axios from '../axiosConfig'; 
 import styles from '../styles/TaskForm.module.scss';
+import "react-datepicker/dist/react-datepicker.css";
 
 interface TaskFormProps {
-  onSubmit: (taskData: { title: string; priority: string; description: string }) => void;
+  onSubmit: (taskData: { title: string; priority: string; description: string; deadline: string | null;}) => void;
   onCancel: () => void;
 }
 
@@ -16,6 +18,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
 	const [success, setSuccess] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [priorities, setPriorities] = useState<any[]>([]);
+  const [deadline, setDeadline] = useState<Date | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,6 +52,11 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
       return;
     }
 
+    if (!deadline) {
+      setError('Deadline is required.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -59,14 +67,16 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
         return;
       }
 
+      const formattedDeadline = deadline ? deadline.toISOString() : null; 
+
     	const response = await axios.post('/tasks/create', 
-        { title, priority, description }, 
+        { title, priority, description, deadline: formattedDeadline }, 
         { headers: {'Authorization': `Bearer ${token}`} }
       );
 
     	if (response.status === 201) {
     		setSuccess('Task created successfully!');
-        onSubmit({ title, priority, description });
+        onSubmit({ title, priority, description, deadline: formattedDeadline || '' });
         setTimeout(() => {
           setSuccess(null); 
           navigate('/tasks'); 	
@@ -108,6 +118,17 @@ return (
     <div>
       <label htmlFor="description">Description</label>
       <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+    </div>
+    <div>
+        <label htmlFor="deadline">Deadline</label>
+        <ReactDatePicker 
+            selected={deadline}
+            onChange={(date) => setDeadline(date)}
+            dateFormat="yyyy-MM-dd"
+            minDate={new Date()} 
+            placeholderText="Select deadline"
+            required
+        />
     </div>
     <div className={styles.buttonContainer}>
     	<button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Creating...' : 'Create'}</button>

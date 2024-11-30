@@ -6,12 +6,18 @@ const jwt = require('jsonwebtoken');
 exports.createTask = async (req, res) => {
 
   try {
-    const {title, priority, description} = req.body; 
+    const {title, priority, description, deadline} = req.body; 
 
     //console.log('Received data:', { title, priority, description });
 
-    if (!title || !description || !priority) {
-      return res.status(400).json({ message: 'Title, description, and priority are required.' });
+    if (!title || !description || !priority || !deadline) {
+      return res.status(400).json({ message: 'Title, description, priority and deadline are required.' });
+    }
+
+    if (new Date(deadline) < new Date()) {
+      return res.status(400).json({ 
+        message: 'Deadline must be a future date.' 
+      });
     }
 
     const taskStatus = 'Pending';
@@ -37,7 +43,7 @@ exports.createTask = async (req, res) => {
     //console.log('User from token:', req.user);
 
 
-    const task = new Task({title, description,  priority: foundPriority._id, status: foundStatus._id, user: req.user._id});
+    const task = new Task({title, description,  priority: foundPriority._id, status: foundStatus._id, user: req.user._id, deadline,});
 
     const savedTask = await task.save();
     //res.status(201).json(savedTask);

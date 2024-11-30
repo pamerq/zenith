@@ -29,6 +29,10 @@ const TaskSchema = new Schema({
     type: Date,
     default: Date.now, // Automatically set the creation date
   },
+  deadline: {
+    type: Date,
+    required: true, // Limite date
+  },
 });
 
 module.exports = mongoose.model('Task', TaskSchema);

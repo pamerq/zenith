@@ -120,11 +120,14 @@ const Tasks: React.FC = () => {
 
   return (
     <div className={styles.tasksContainer}>
-      <TaskMenu />
+      {/*<TaskMenu />*/}
       <div className={styles.tasksContent}>
         <div className={`${styles.header} ${styles.buttonGroup}`}>
           <div className={styles.viewButtons}>
-            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>Kanban View</button>
+            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>Kanban </button>
+            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>List </button>
+            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>Table</button>
+            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>Calendar</button>
           </div>
           <button onClick={openModal} className={styles.horizontalMenuButton}>New Task +</button>
         </div>
