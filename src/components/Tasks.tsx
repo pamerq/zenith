@@ -14,14 +14,16 @@ const Tasks: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [statuses, setStatuses] = useState<Record<string, string>>({});
   const [statusesLoaded, setStatusesLoaded] = useState(false);
+  const [priorities, setPriorities] = useState<Record<string, string>>({});
+  const [prioritiesLoaded, setPrioritiesLoaded] = useState(false);
   const [activeView, setActiveView] = useState("list");
 
   const renderActiveView = () => {
     switch (activeView) {
       case "Kanban":
-        return <KanbanView tasks={tasks} statuses={statuses} />;
+        return <KanbanView tasks={tasks} statuses={statuses} priorities={priorities}/>;
       default:
-        return <KanbanView tasks={tasks} statuses={statuses} />;
+        return <KanbanView tasks={tasks} statuses={statuses} priorities={priorities}/>;
     }
   };
 
@@ -36,6 +38,23 @@ const Tasks: React.FC = () => {
   };
 
   useEffect(() => {
+
+    const fetchPriorities = async () => {
+      try {
+        const response = await axios.get('/config/priorities');
+        if (!response || !Array.isArray(response.data)) {
+          throw new Error("Unexpected response format");
+        }
+        const prioritiesMap = response.data.reduce((acc: Record<string, string>, priority: { _id: string, name: string }) => {
+          acc[priority._id] = priority.name;  
+          return acc;
+        }, {});
+        setPriorities(prioritiesMap);
+        setPrioritiesLoaded(true);
+      } catch (error: any) {
+        console.error('Error fetching priorities:', error);
+      }
+    };
 
     const fetchStatuses = async () => {
 
@@ -57,7 +76,6 @@ const Tasks: React.FC = () => {
       } catch (error: any) {
 
         console.error('Error loading statuses:', error);
-        setError(error.message || 'Error loading statuses.');
 
       }
     };
@@ -88,13 +106,14 @@ const Tasks: React.FC = () => {
 
     };
 
-    if (!statusesLoaded) {
-      fetchStatuses();  // Fetch statuses first
+    if (!statusesLoaded && !prioritiesLoaded) {
+      fetchStatuses();  
+      fetchPriorities();
     } else {
       fetchTasks();  // Fetch tasks after statuses have been loaded
     }
 
-  }, [statusesLoaded]);
+  }, [statusesLoaded, prioritiesLoaded, statuses, priorities]);
 
 
   if (error) return <div>Error: {error}</div>;

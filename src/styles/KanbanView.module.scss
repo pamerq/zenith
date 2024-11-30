@@ -48,3 +48,36 @@
   color: #888; /* Texto gris para indicar que no hay tareas */
   text-align: center;
 }
+
+.priorityBox {
+  display: inline-block;
+  padding: 4px 12px; /* Ajustar el tamaño del cuadro */
+  border: 2px solid; /* Borde sólido */
+  border-radius: 5px; /* Bordes redondeados */
+  color: #fff; /* Color del texto */
+  font-weight: bold;
+  text-transform: capitalize; /* Poner la primera letra en mayúsculas */
+  margin-left: 10px;
+  text-align: center; /* Centrar el texto dentro del recuadro */
+  font-size: 14px; /* Tamaño de la fuente */
+  max-width: 50px; /* Limitar el ancho máximo para no hacerlo tan largo */
+  white-space: nowrap; /* Evitar que el texto se desborde */
+}
+
+.High {
+  border-color: #e74c3c; /* Rojo para alta prioridad */
+  background-color: rgba(231, 76, 60, 0.1); /* Fondo rojo suave */
+  color: #e74c3c; /* Color de texto en rojo para alta prioridad */
+}
+
+.Medium {
+  border-color: #f39c12; /* Amarillo para prioridad media */
+  background-color: rgba(243, 156, 18, 0.1); /* Fondo amarillo suave */
+  color: #f39c12; /* Color de texto en amarillo para media prioridad */
+}
+
+.Low {
+  border-color: #2ecc71; /* Verde para baja prioridad */
+  background-color: rgba(46, 204, 113, 0.1); /* Fondo verde suave */
+  color: #2ecc71; /* Color de texto en verde para baja prioridad */
+}
