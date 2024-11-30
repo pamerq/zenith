@@ -20,6 +20,10 @@ exports.createTask = async (req, res) => {
       });
     }
 
+    if (!deadline || isNaN(new Date(deadline).getTime())) {
+      return res.status(400).json({ message: 'Deadline is not valid.' });
+    }
+    
     const taskStatus = 'Pending';
 
     //const foundPriority = await Priority.findOne({ name: priority });
@@ -43,7 +47,8 @@ exports.createTask = async (req, res) => {
     //console.log('User from token:', req.user);
 
 
-    const task = new Task({title, description,  priority: foundPriority._id, status: foundStatus._id, user: req.user._id, deadline,});
+    const task = new Task({title, description,  priority: foundPriority._id, 
+      status: foundStatus._id, user: req.user._id, deadline: new Date(deadline),});
 
     const savedTask = await task.save();
     //res.status(201).json(savedTask);

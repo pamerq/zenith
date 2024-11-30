@@ -35,10 +35,36 @@
   margin-top: 10px; /* Opcional: añade separación del contenido superior */
 }
 
+.viewButton {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.viewButton:hover {
+  background-color: #2a3e5c; /* Fondo más oscuro al pasar el mouse */
+  color: white; /* Cambiar color del texto */
+  border-color: #2a3e5c; /* Cambiar color del borde */
+  transform: scale(1.05); /* Aumentar ligeramente el tamaño del botón */
+  transition: background-color 0.5s, border-color 0.5s, transform 0.3s;
+
+}
+
+.activeView {
+  background-color: #2a3e5c;
+  color: white;
+  border-color: #2a3e5c;
+}
+
 .horizontalMenuButton {
   background-color: #2A3E5C;
   color: white;
-  padding: 12px 20px;
+  padding: 10px 20px;
   text-align: center;
   border-radius: 8px;
   font-size: 1.1rem;
@@ -50,7 +76,11 @@
 }
 
 .horizontalMenuButton:hover {
-  background-color: #0056b3;
+  background-color: #1c2b3a; /* Fondo más oscuro */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
+  transform: scale(1.05); /* Agrandar ligeramente */
+  transition: background-color 0.5s, border-color 0.5s, transform 0.3s;
+
 }
 
 .modalOverlay {

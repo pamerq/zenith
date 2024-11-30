@@ -57,8 +57,9 @@ const getAllPriorities = async (req, res) => {
     sendResponse(res, 200, priorities);
     //res.status(200).json(priorities); // Enviar todas las prioridades
   } catch (error) {
-    console.error('Error al obtener las prioridades:', error);
-    res.status(500).json({ message: 'Error al obtener las prioridades' });
+    handleError(res, error, 'Error getting priorities');
+    //console.error('Error al obtener las prioridades:', error);
+    //res.status(500).json({ message: 'Error al obtener las prioridades' });
   }
 };
 

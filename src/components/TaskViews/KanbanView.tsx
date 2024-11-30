@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Task } from "../../types/Task";
+import { FaRegClock } from 'react-icons/fa';
+import { calculateDaysLeft } from '../../helpers/utils';
 import styles from '../../styles/KanbanView.module.scss';
 
 interface KanbanViewProps {
@@ -50,7 +52,12 @@ const KanbanView: React.FC<KanbanViewProps> = ({ tasks, statuses, priorities}) =
                         </div>
                       </div>
                       <strong className={styles.taskCardTitle}>{task.title}</strong>
-                      <small>Created: {new Date(task.createDate).toLocaleDateString()}</small>
+                      <div className={styles.deadlineContainer}>
+                        <FaRegClock className={styles.clockIcon} />
+                        <small className={styles.deadlineText}>
+                          {calculateDaysLeft(new Date(), new Date(task.deadline))}d
+                        </small>
+                      </div>
                     </div>
                 ))) : (
                 <p className={styles.noTasks}> No tasks available</p>

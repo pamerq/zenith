@@ -6,13 +6,13 @@ import styles from '../styles/TaskForm.module.scss';
 import "react-datepicker/dist/react-datepicker.css";
 
 interface TaskFormProps {
-  onSubmit: (taskData: { title: string; priority: string; description: string; deadline: string | null;}) => void;
+  onSubmit: (taskData: { title: string; priority: string; description: string; deadline: Date;}) => void;
   onCancel: () => void;
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
 	const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState('Low');
+  const [priority, setPriority] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState<string | null>(null);
@@ -26,13 +26,14 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
     const fetchPriorities = async () => {
       try {
         const response = await axios.get('/config/priorities');
-        setPriorities(response.data); 
-        if (response.data.length > 0) {
-          setPriority(response.data[0]._id); 
+        if (!response.data || !Array.isArray(response.data.data)) {
+          throw new Error("Unexpected response format");
         }
+        setPriorities(response.data.data); 
+        setPriority(response.data.data[0]._id); 
+        
       } catch (err) {
-        setError('Error loading priorities.');
-        console.error('Error loading priorities:', err);
+        console.error('Error fetching priorities:', error);
       }
     };
 
@@ -43,9 +44,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
     e.preventDefault();
     setError(null); 
     setSuccess(null);
-
-    //console.log('Title:', title);
-    //console.log('Description:', description);
 
     if (title.trim() === '' || description.trim() === '') {
       setError('Title and description are required.');
@@ -67,16 +65,14 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel }) => {
         return;
       }
 
-      const formattedDeadline = deadline ? deadline.toISOString() : null; 
-
     	const response = await axios.post('/tasks/create', 
-        { title, priority, description, deadline: formattedDeadline }, 
+        { title, priority, description, deadline}, 
         { headers: {'Authorization': `Bearer ${token}`} }
       );
 
     	if (response.status === 201) {
     		setSuccess('Task created successfully!');
-        onSubmit({ title, priority, description, deadline: formattedDeadline || '' });
+        onSubmit({ title, priority, description, deadline});
         setTimeout(() => {
           setSuccess(null); 
           navigate('/tasks'); 	
@@ -105,8 +101,7 @@ return (
     <div>
       <label htmlFor="priority">Priority</label>
       <select id="priority" value={priority} onChange={(e) => setPriority(e.target.value)}>
-        {priorities.length > 0 ? 
-        (priorities.map((priority) => (
+        {priorities.length > 0 ? (priorities.map((priority) => (
           <option key={priority._id} value={priority._id}> {priority.name} {/* Aquí usamos el nombre de la prioridad */}
           </option>
               ))

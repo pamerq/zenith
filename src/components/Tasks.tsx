@@ -16,7 +16,7 @@ const Tasks: React.FC = () => {
   const [statusesLoaded, setStatusesLoaded] = useState(false);
   const [priorities, setPriorities] = useState<Record<string, string>>({});
   const [prioritiesLoaded, setPrioritiesLoaded] = useState(false);
-  const [activeView, setActiveView] = useState("list");
+  const [activeView, setActiveView] = useState("Kanban"); 
 
   const renderActiveView = () => {
     switch (activeView) {
@@ -27,14 +27,13 @@ const Tasks: React.FC = () => {
     }
   };
 
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleCreateTask = (taskData: { title: string; priority: string; description: string }) => {
+  const handleCreateTask = (taskData: { title: string; priority: string; description: string; deadline: Date; }) => {
     setTimeout(() => {
           closeModal();
-        }, 900);
+        }, 800);
   };
 
   useEffect(() => {
@@ -42,10 +41,10 @@ const Tasks: React.FC = () => {
     const fetchPriorities = async () => {
       try {
         const response = await axios.get('/config/priorities');
-        if (!response || !Array.isArray(response.data)) {
+        if (!response.data || !Array.isArray(response.data.data)) {
           throw new Error("Unexpected response format");
         }
-        const prioritiesMap = response.data.reduce((acc: Record<string, string>, priority: { _id: string, name: string }) => {
+        const prioritiesMap = response.data.data.reduce((acc: Record<string, string>, priority: { _id: string, name: string }) => {
           acc[priority._id] = priority.name;  
           return acc;
         }, {});
@@ -124,10 +123,10 @@ const Tasks: React.FC = () => {
       <div className={styles.tasksContent}>
         <div className={`${styles.header} ${styles.buttonGroup}`}>
           <div className={styles.viewButtons}>
-            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>Kanban </button>
-            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>List </button>
-            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>Table</button>
-            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>Calendar</button>
+            <button onClick={() => setActiveView("Kanban")} className={`${styles.viewButton} ${activeView === "Kanban" ? styles.activeView : ""}`}>Kanban </button>
+            <button onClick={() => setActiveView("Kanban")} className={`${styles.viewButton} ${activeView === "List" ? styles.activeView : ""}`}>List </button>
+            {/*<button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>Table</button>
+            <button onClick={() => setActiveView("Kanban")} className={styles.horizontalMenuButton}>Calendar</button>*/}
           </div>
           <button onClick={openModal} className={styles.horizontalMenuButton}>New Task +</button>
         </div>
