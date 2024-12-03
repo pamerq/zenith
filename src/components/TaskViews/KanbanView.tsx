@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Task } from "../../types/Task";
 import { FaRegClock } from 'react-icons/fa';
 import { calculateDaysLeft } from '../../helpers/utils';
@@ -12,14 +13,20 @@ interface KanbanViewProps {
 
 const KanbanView: React.FC<KanbanViewProps> = ({ tasks, statuses, priorities}) => {
   const [menuVisible, setMenuVisible] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleMenuToggle = (taskId: string) => {
-    setMenuVisible(menuVisible === taskId ? null : taskId); // Alterna el estado del menú
+    setMenuVisible(menuVisible === taskId ? null : taskId);
   };
 
   const handleEdit = (taskId: string) => {
-    console.log("Edit task with ID:", taskId);
-    setMenuVisible(null); // Ocultar el menú después de editar
+    navigate(`/tasks/${taskId}`, {
+      state: {
+        statuses,
+        priorities
+      }
+    });
+    setMenuVisible(null); 
   };
 
   const handleDelete = (taskId: string) => {

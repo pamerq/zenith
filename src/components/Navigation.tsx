@@ -14,7 +14,8 @@ const Navigation: React.FC = () => {
   };
 
   const getActiveClass = (path: string) => {
-    return location.pathname === path ? styles.active : '';
+    //return location.pathname === path ? styles.active : '';
+    return location.pathname.includes(path) ? styles.active : '';
   };
 
   return (

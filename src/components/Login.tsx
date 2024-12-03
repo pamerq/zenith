@@ -35,6 +35,7 @@ const Login: React.FC = () => {
   return (
     <div className={styles.loginContainer}>
       <h1 className={styles.loginTitle}>Welcome</h1>
+      <h1 className={styles.loginTitle}>Zenith</h1>
       <form className={styles.loginForm} onSubmit={handleLogin}>
         <label>
         	Email address:
