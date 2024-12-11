@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Task } from "../../types/Task";
 import { FaRegClock } from 'react-icons/fa';
 import { calculateDaysLeft } from '../../helpers/utils';
+import axios from '../../axiosConfig';
 import styles from '../../styles/KanbanView.module.scss';
 
 interface KanbanViewProps {
@@ -14,6 +15,13 @@ interface KanbanViewProps {
 const KanbanView: React.FC<KanbanViewProps> = ({ tasks, statuses, priorities}) => {
   const [menuVisible, setMenuVisible] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [message, setMessage] = useState<string | null>(null);
+
+  const showMessage = (msg: string, duration: number = 3000) => {
+    setMessage(msg);
+    console.log("Message set:", msg);
+    setTimeout(() => setMessage(null), duration);
+  };  
 
   const handleMenuToggle = (taskId: string) => {
     setMenuVisible(menuVisible === taskId ? null : taskId);
@@ -29,8 +37,29 @@ const KanbanView: React.FC<KanbanViewProps> = ({ tasks, statuses, priorities}) =
     setMenuVisible(null); 
   };
 
-  const handleDelete = (taskId: string) => {
+  const handleDelete = async (taskId: string) => {
     console.log("Delete task with ID:", taskId);
+    if (!taskId) return;
+
+      try {
+
+        const confirmed = window.confirm("¿Estás seguro de que deseas eliminar esta tarea?");
+        if (!confirmed) return;
+
+        const token = localStorage.getItem('token');
+        const response = await axios.delete(`/tasks/${taskId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log('Task deleted successfully:', response.data);
+        showMessage("La tarea ha sido eliminada con éxito.");
+        setTimeout(() => navigate("/tasks"), 2000);
+
+      } catch (error) {
+        console.error('Error deleting task:', error);
+      }
     setMenuVisible(null); // Ocultar el menú después de eliminar
   };
 

@@ -1,12 +1,13 @@
   import React, { useEffect, useState } from 'react';
   import axios from '../axiosConfig';
-  import { useParams } from 'react-router-dom';
+  import { useParams, useNavigate } from 'react-router-dom';
   import { useLocation } from 'react-router-dom';
   import { Task } from '../types/Task';
   import { FaRegClock } from 'react-icons/fa';
   import ReactDatePicker from 'react-datepicker';
   import 'react-datepicker/dist/react-datepicker.css';
   import styles from '../styles/TaskDetail.module.scss';
+
 
   interface LocationState {
     statuses: Record<string, string>;
@@ -17,9 +18,18 @@
     const { taskId } = useParams<{ taskId: string }>(); // Obtiene el taskId de la URL
     const [task, setTask] = useState<Task | null>(null);
     const location = useLocation();
+    const navigate = useNavigate();
+
     const { statuses = {}, priorities = {} } = location.state as LocationState || {};
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isEditingDeadline, setIsEditingDeadline] = useState(false); 
+    const [message, setMessage] = useState<string | null>(null);
+
+    const showMessage = (msg: string, duration: number = 3000) => {
+      setMessage(msg);
+      console.log("Message set:", msg);
+      setTimeout(() => setMessage(null), duration);
+    };
 
     useEffect(() => {
       console.log('Task ID:', taskId);
@@ -85,6 +95,32 @@
       setTask((prevTask: any) => ({ ...prevTask, deadline: date }));
     };
 
+    const handleDelete = async () => {
+
+      if (!task) return;
+
+      try {
+
+        const confirmed = window.confirm("¿Estás seguro de que deseas eliminar esta tarea?");
+        if (!confirmed) return;
+
+        const token = localStorage.getItem('token');
+        const response = await axios.delete(`/tasks/${taskId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log('Task deleted successfully:', response.data);
+        showMessage("La tarea ha sido eliminada con éxito.");
+        setTimeout(() => navigate("/tasks"), 2000);
+
+      } catch (error) {
+        console.error('Error deleting task:', error);
+      }
+      
+    };
+
     const handleSave = async () => {
     if (!task) return;
 
@@ -105,6 +141,8 @@
       });
 
       console.log('Task updated successfully:', response.data);
+      showMessage("Se guardaron los cambios con exito");
+
     } catch (error) {
       console.error('Error updating task:', error);
     }
@@ -112,6 +150,7 @@
 
   return (
       <div className={styles.taskDetailContainer}>
+      {message && <div className={styles.message}>{message}</div>}
         {task ? (
           <>
             <h1 className={styles.taskTitle}>
@@ -191,7 +230,7 @@
               </div>
 
               <div className={styles.buttonsContainer}>
-                <button className={styles.deleteButton}>Eliminar</button>
+                <button onClick={handleDelete} className={styles.deleteButton}>Eliminar</button>
                 <button onClick={handleSave} className={styles.saveButton}>Guardar</button>
               </div>
 
